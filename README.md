@@ -1,2 +1,2 @@
 # Webshop
-A simple webshop by using Django framewor
+A simple webshop by using Django framework
