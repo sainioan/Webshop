@@ -72,9 +72,6 @@ TEMPLATES = [
     },
 ]
 
-CORS_ORIGIN_ALLOW_ALL = True
-ACCOUNT_SESSION_REMEMBER = True
-ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"
 WSGI_APPLICATION = "Webshop.wsgi.application"
 
 
@@ -133,7 +130,6 @@ STATIC_URL = "/static/"
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static_templates"),
 ]
-
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/3.2/ref/settings/#default-auto-field
