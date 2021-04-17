@@ -1,9 +1,10 @@
 # Webshop
-A simple webshop by using Django framework
 
+A simple webshop by using Django framework
 
 ## Instructions
 
+### For Mac/Linux
 
 virtualenv venv
 source venv/bin/activate
@@ -13,8 +14,7 @@ python manage.py makemigrations
 python manage.py migrate
 python manage.py runserver
 
-
-1. `git clone  https://github.com/sainioan/Webshop`
+1. `git clone https://github.com/sainioan/Webshop`
 2. `pip install virtualenv`
 3. `source venv/bin/activate`
 4. `cd Webshop`

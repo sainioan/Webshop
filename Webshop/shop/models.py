@@ -1,6 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
-
+from django.utils.timezone import *
 # Create your models here.
 
 class Product(models.Model):
@@ -30,3 +30,15 @@ class Product(models.Model):
     def delete(self, *args, **kwargs):
         super(Products, self).delete(*args, **kwargs)
 
+class Cart(models.Model):
+    # user_id = models.ForeignKey(User, on_delete=models.CASCADE)
+    product = models.ForeignKey(Product, on_delete=models.CASCADE)
+    count = models.DecimalField(max_digits=10, decimal_places=0)
+    date = models.DateField(auto_now_add=True)
+
+    # class Meta:
+    #     verbose_name = 'Carts'
+    #     verbose_name_plural = 'Carts'
+
+    def __str__(self):
+        return '%s' % (self.user_id)
