@@ -73,6 +73,9 @@ TEMPLATES = [
     },
 ]
 
+MEDIA_URL = '/media/' 
+MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+
 CORS_ORIGIN_ALLOW_ALL = True
 ACCOUNT_SESSION_REMEMBER = True
 ACCOUNT_DEFAULT_HTTP_PROTOCOL = "http"

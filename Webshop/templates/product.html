@@ -1,0 +1,42 @@
+{% extends 'base.html' %}
+<script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
+{% block content %}
+  <main class="mt-5 pt-4">
+    <div class="container dark-grey-text mt-5">
+      <div class="row wow fadeIn">
+        <div class="col-md-6 mb-4">
+    <img src="{{product.image.url}}" alt="product" width="350" height="450"  class="img-fluid" >
+        </div>
+        <div class="col-md-6 mb-4">
+          <div class="p-4">
+            <p class="lead">
+             <span>${{ object.price }}</span>        
+            </p>
+            <p class="lead font-weight-bold">{{ object.item_name }}</p>
+            <p>{{ object.description }}</p>
+
+            {% comment %} <form id="cart_item" class="d-flex justify-content-left" method="POST">
+              <input type="number" value="1" aria-label="Search" class="form-control" style="width: 100px">
+              <button class="btn btn-primary btn-md my-0 p" id="cart_item" type="submit"> Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+              </button>
+
+            </form> {% endcomment %}
+
+            <a href="{{ object.add_to_cart }}" class="btn btn-primary btn-md my-0 p" >Add to cart
+                <i class="fas fa-shopping-cart ml-1"></i>
+            </a>
+
+            {{ object.get_quantity_in_chart }}
+            <a href="{{ object.remove_from_cart }}" class="btn btn-danger btn-md my-0 p" >Remove From cart
+                <i class="fas fa-trash ml-1"></i>
+            </a>     
+          </div>
+        </div>
+      </div>
+      <hr>
+    </div>
+  </main>
+
+{% endblock content %}
+

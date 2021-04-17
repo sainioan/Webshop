@@ -3,10 +3,20 @@
 {% block content %}
 
 <H1>Welcome to this awesome webstore!</H1>
+<h1>Welcome, {{ user.username }}!</h1>
+{% for product in product_list %}
 
-{% for product in productss %}
+<div class="view overlay">
+
+    <h5 class="card-title">{{ product.product_name }}</h5>
+    <img src="{{product.image.url}}" alt="product" width="200" height="250">
+    <br />
+  
+    <a href="{{ product.view_product}}"  class="dark-grey-text">{{ product.productname}}>
+      <div class="mask rgba-white-slight"></div>
+    </a>
+  </div>
 <div class="card" style="width: 18rem;">
-  <img class="card-img-top" src="{{ product.image }}" alt="Card image cap">
   <div class="card-body">
     <h5 class="card-title">{{ product.productname }}</h5>
     <p class="card-text">{{ product.description }}</p>
