@@ -54,7 +54,7 @@ MIDDLEWARE = [
     "django.middleware.csrf.CsrfViewMiddleware",
     "django.contrib.auth.middleware.AuthenticationMiddleware",
     "django.contrib.messages.middleware.MessageMiddleware",
-    "django.middleware.clickjacking.XFrameOptionsMiddleware",
+    "django.middleware.clickjacking.XFrameOptionsMiddleware"
 ]
 
 ROOT_URLCONF = "Webshop.urls"
@@ -62,7 +62,7 @@ ROOT_URLCONF = "Webshop.urls"
 TEMPLATES = [
     {
         "BACKEND": "django.template.backends.django.DjangoTemplates",
-         "DIRS": [
+        "DIRS": [
             os.path.join(os.path.dirname(__file__), "../templates").replace("\\", "/")
         ],
         "APP_DIRS": True,
@@ -77,8 +77,8 @@ TEMPLATES = [
     },
 ]
 
-MEDIA_URL = '/media/' 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'media')
+MEDIA_URL = "/media/"
+MEDIA_ROOT = os.path.join(BASE_DIR, "media")
 
 CORS_ORIGIN_ALLOW_ALL = True
 ACCOUNT_SESSION_REMEMBER = True
@@ -118,8 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+
 def show_toolbar(request):
     return True
+
 
 SHOW_TOOLBAR_CALLBACK = show_toolbar
 # Internationalization

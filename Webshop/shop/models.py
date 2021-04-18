@@ -12,7 +12,7 @@ CATEGORY = (
 class Product(models.Model):
 
     product_name = models.CharField(max_length=100)
-    # category = models.CharField(choices=CATEGORY, max_length=2)
+    category = models.CharField(choices=CATEGORY, max_length=2, null=True)
     price = models.DecimalField(max_digits=5, decimal_places=2)
     description = models.TextField(max_length=5000, null=True)
     image = models.ImageField(upload_to='upload/', null=True, blank=True)
@@ -38,22 +38,44 @@ class Product(models.Model):
     def delete(self, *args, **kwargs):
         super(Products, self).delete(*args, **kwargs)
 
+class CartItem(models.Model):
+    user = models.ForeignKey(settings.AUTH_USER_MODEL,
+                             on_delete=models.CASCADE)
+    date_added = models.DateTimeField(auto_now_add=True)
+    quantity = models.IntegerField(default=1)
+    product = models.ForeignKey(Product,  on_delete=models.CASCADE, unique=False)
+
+    class Meta:
+        db_table = 'cart_items'
+        ordering = ['date_added']
+
+    def total(self):
+        return self.quantity * self.product.price
+
+    def name(self):
+        return self.product.name
+
+    def price(self):
+        return self.product.price 
+
+    def get_absolute_url(self):
+        return self.product.get_absolute_url()
+
+    def augment_quantity(self, quantity):    
+        self.quantity = self.quantity + int(quantity)
+        self.save() 
+
+
 class Cart(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
                              on_delete=models.CASCADE)
-    product = models.ForeignKey(Product, on_delete=models.CASCADE)
-    count = models.DecimalField(max_digits=10, decimal_places=0)
+    products = models.ManyToManyField(CartItem)
+    count = models.DecimalField(default=0, max_digits=10, decimal_places=0)
     date = models.DateField(auto_now_add=True)
-
-    # class Meta:
-    #     verbose_name = 'Carts'
-    #     verbose_name_plural = 'Carts'
-
-    def __str__(self):
-        return '%s' % (self.user_id)
-
-    def __str__(self):
-        return f"{self.count} of {self.product.product_name}"
+    
 
     def get_total_amount(self):
-        return self.count * self.product.price
+        total = 0
+        for pr in self.products.all():
+            total += pr.price()
+        return total

@@ -14,7 +14,7 @@
       <div class="row wow fadeIn">
         <div class="col-md-6 mb-4">
 
-    <p class="lead font-weight-bold">{{ object.product_name }}</p>
+    <H6 class="lead font-weight-bold">{{ object.product_name.title }}</H6>
     <img src="{{product.image.url}}" alt="product" width="350" height="450"  class="img-fluid" >
 </div>
         <div class="col-md-6 mb-4">
@@ -23,7 +23,7 @@
                 {% csrf_token %}
         <script>
             var url = "add_to_cart/"
-            var url = "remove_from_cart/"
+           
             var cartItem = `{{product.id}}`
             var data = {
                 cartItem: cartItem
@@ -33,15 +33,34 @@
         <button background-color='#008CBA'  width="18em"  class="btn btn-primary btn-md my-0 p" onClick="postData(url, data);"> Add {{ object.product_name }} to cart 
             <i class="fas fa-shopping-cart ml-1"></i>
         </button> 
+        </div>
+        <script>
+             var cartItem = `{{product.id}}`
+            var data = {
+                cartItem: cartItem
+            };
+             var url2 = "remove_from_cart/"
+        </script>
         <p></p>
+        <div float="right">
         <button background-color='#f44336' width="18em" class= "btn btn-danger btn-md my-0 p" onClick="removeData(url2, data);">Remove from cart
             <i class="fas fa-shopping-cart ml-1"></i>
         </button> 
+       
+        </div>
         <p></p>
-        <H5> <b>Product Information </b></H5>
-        <span> <b>Price: </b>${{ object.price }}</span>        
-        </p>
-        <p><b> Description: </b>{{ object.description }}</p>        
+        <div float="right">
+        <a background-color='#e7e7e7'color= "black" href="{% url 'shop:shopping_cart' %}" class="btn" >Cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+        </a> 
+    </div> 
+        <p></p>
+        <ul>
+        <H5> <b>About this item </b></H5>
+        <li> <b>Price: </b>{{ object.price }} €</li>        
+        <li> <b> Description: </b>{{ object.description }}</li>
+    </ul>
+
     </div>
 </div>       
 
@@ -51,7 +70,7 @@
             
             
             </form> {% endcomment %}
-
+          
             <!-- <a href="{{ object.add_to_cart }}" class="btn btn-primary btn-md my-0 p" >Add to cart
                 <i class="fas fa-shopping-cart ml-1"></i>
             </a> -->
