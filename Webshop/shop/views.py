@@ -21,48 +21,41 @@ class ProductView(DetailView):
 
 
 def add_to_cart(request, pk):
-# def add_to_cart(request):
-    print("ajax: ")
-    
-    if request.method == 'GET':
-            response_json = request.GET
-            response_json = json.dumps(response_json)
-            data = json.loads(response_json)
-            print(data)
-            for key, value in data.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
-                print(key)
-                print('value: ', str(value))
-    # if request.method == 'POST':
-    #     print("fetch")
-    #     response_json = request.POST
-    #     response_json = json.dumps(response_json)
-    #     data2 = json.loads(response_json)
-    #     print(data2)
+    # def add_to_cart(request):
+    print("ajax_add: ")
+
+    if request.method == "GET":
+        response_json = request.GET
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+        print(data["cartItem"])
 
     return JsonResponse(data)
 
-def add_product(request):
-    # cart = Cart(request)
- 
-    # cart.add(product=product)
-    data = request.POST
-    received_json_data = json.loads(request.body)
-    product_id = request.GET.get('product_id')
-    product = Product.objects.get(id=product_id)
-    return JsonResponse({'product': 'product'})
 
 def remove_from_cart(request, pk):
-    product = get_object_or_404(Product, pk=pk)
-    print("removed product: ", product)
-    return HttpResponse(product)
+    print("ajax_remove: ")
+
+    if request.method == "GET":
+        response_json = request.GET
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+        print(data["cartItem"])
+
+    return JsonResponse(data)
+
 
 def search(request):
-    if request.method == 'POST':
-        search = request.POST.get('search')
-        product_count = Product.objects.filter(Q(product_name__contains=search) | Q(price__contains=search)).count()
+    if request.method == "POST":
+        search = request.POST.get("search")
+        product_count = Product.objects.filter(
+            Q(product_name__contains=search) | Q(price__contains=search)
+        ).count()
         per_page = 9
         count_page = int(product_count / per_page) + 1
-        product = Product.objects.filter(Q(product_name__contains=search) | Q(price__contains=search))[:per_page]
+        product = Product.objects.filter(
+            Q(product_name__contains=search) | Q(price__contains=search)
+        )[:per_page]
         a = []
         for i in product:
             b = []
@@ -73,11 +66,10 @@ def search(request):
             a.append(b)
         # cat = Product.objects.filter(submenu_id=0)
         context = {
-            'search': search,
-            'product': a,
-
+            "search": search,
+            "product": a,
         }
-        return render(request, 'search.html', context)
+        return render(request, "search.html", context)
     else:
-        return redirect('/')
-    return redirect('/')
+        return redirect("/")
+    return redirect("/")

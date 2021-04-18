@@ -3,6 +3,7 @@
     <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
     <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
     <script src="/lib/jquery.plugin.js"></script>
+   
 </head>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -12,44 +13,53 @@
     <div class="container dark-grey-text mt-5">
       <div class="row wow fadeIn">
         <div class="col-md-6 mb-4">
+
+    <p class="lead font-weight-bold">{{ object.product_name }}</p>
     <img src="{{product.image.url}}" alt="product" width="350" height="450"  class="img-fluid" >
-        </div>
+</div>
         <div class="col-md-6 mb-4">
           <div class="p-4">
             <p class="lead">
                 {% csrf_token %}
-        <!-- <button class="post" onClick="fetchCartItem()">Add to cart</button> -->
         <script>
             var url = "add_to_cart/"
+            var url = "remove_from_cart/"
             var cartItem = `{{product.id}}`
             var data = {
                 cartItem: cartItem
-                // cartItem: document.getElementById("cart_item").value
             };
         </script>
-        <button class="post" onClick="postData(url, data);">Add to cart</button> 
-             <span>${{ object.price }}</span>        
-            </p>
-            <p class="lead font-weight-bold">{{ object.item_name }}</p>
-            <p>{{ object.description }}</p>
+        <div float="left">
+        <button background-color='#008CBA'  width="18em"  class="btn btn-primary btn-md my-0 p" onClick="postData(url, data);"> Add {{ object.product_name }} to cart 
+            <i class="fas fa-shopping-cart ml-1"></i>
+        </button> 
+        <p></p>
+        <button background-color='#f44336' width="18em" class= "btn btn-danger btn-md my-0 p" onClick="removeData(url2, data);">Remove from cart
+            <i class="fas fa-shopping-cart ml-1"></i>
+        </button> 
+        <p></p>
+        <H5> <b>Product Information </b></H5>
+        <span> <b>Price: </b>${{ object.price }}</span>        
+        </p>
+        <p><b> Description: </b>{{ object.description }}</p>        
+    </div>
+</div>       
 
-            {% comment %} <form id="cart_item" class="d-flex justify-content-left" method="POST">
+            {% comment %} 
+            <form id="cart_item" class="d-flex justify-content-left" method="POST">
               <input type="number" value="1" id="cart_item" aria-label="Search" class="form-control" style="width: 100px">
-              <button class="btn btn-primary btn-md my-0 p" id="cart_item" type="submit" onClick="fetchCartItem();"> Add to cart
-                <i class="fas fa-shopping-cart ml-1"></i>
-              </button>
             
-		<button id="add-to-cart" class="btn" href="">Add To Cart</button>
+            
             </form> {% endcomment %}
 
             <!-- <a href="{{ object.add_to_cart }}" class="btn btn-primary btn-md my-0 p" >Add to cart
                 <i class="fas fa-shopping-cart ml-1"></i>
             </a> -->
-            <a href="#" data-id="{{ product.id }}" class="btn btn-primary btn-md my-0 p" class="add_to_cart"> Add to cart
-            <i class="fas fa-shopping-cart ml-1"></i></a>
+            <!-- <a href="#" data-id="{{ product.id }}" class="btn btn-primary btn-md my-0 p" class="add_to_cart"> Add to cart -->
+            <!-- <i class="fas fa-shopping-cart ml-1"></i></a>
             <a href="{{ object.remove_from_cart }}" class="btn btn-danger btn-md my-0 p" >Remove From cart
                 <i class="fas fa-trash ml-1"></i>
-            </a>     
+            </a>      -->
           </div>
         </div>
       </div>
@@ -58,10 +68,7 @@
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <script>
-        function getCookie(name) {
-            let cookie = document.cookie.match('(^|;) ?' + name + '=([^;]*)(;|$)');
-            return cookie ? cookie[2] : null;
-        }
+  
         console.log(`{{product.id}}`)
         function postData(url, data) {
   // Default options are marked with *
@@ -79,63 +86,25 @@
     },
 });
 }
-        function fetchCartItem() {
-            // URL = "add_to_cart/<pk>/"
-            URL = "add_to_cart/"
-            var cartItem = `{{product.id}}`
-            var data = {
-                cartItem: cartItem
-                // cartItem: document.getElementById("cart_item").value
-            };
-
-
-
-            fetch(URL, {
-                    method: 'get',
-                    headers: {
-                        "X-CSRFToken": getCookie("csrftoken"),
-                        'Accept': 'application/json',
-                    },
-                    // body: JSON.stringify(data),
-                 data
-                })
-                .then((res) => {
-                    console.log(res)
-                    console.log(JSON.stringify(res))
-                    return res.json()
-                })
-                .then(json => {
-                    window.alert(`${cartItem} successfully posted`)
-                })
-                .catch(err => {
-                    alert(`Error: ${err}`, 'danger');
-                    console.log(JSON.stringify(data))
-                    console.log(err)
-
-                });
-
-        }
-    </script>
-    <script>
-        // $(document).ready(function(){
-        //     $('#btn btn-primary btn-md my-0 p').on('click', function(){
-        //         product_id = $(this).attr('data-id')
-        //         data = {
-        //             product_id: product_id
-        //         }
     
-        //         $.ajax({
-        //             type: 'GET',
-        //             url: "add_to_cart/<pk>/",
-        //             data: data,
-        //             success: function(data){
-        //                 console.log('success')
-        //             }
-        //         })
-        //     })
-        // });
+function removeData(url2, data) {
+  // Default options are marked with *
+  $.ajax({
+    type: "GET",
+    url: url,
+    data: data,
+    success: function(data){
+        console.log("success");
+        console.log(data);
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});
+}
     </script>
-  </main>
+     </main>
 
 {% endblock content %}
 
