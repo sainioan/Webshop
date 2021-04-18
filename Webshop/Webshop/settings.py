@@ -43,6 +43,8 @@ INSTALLED_APPS = [
     "django.contrib.staticfiles",
     "Webshop",
     "shop",
+    "corsheaders",
+    "rest_framework",
 ]
 
 MIDDLEWARE = [
@@ -116,7 +118,10 @@ AUTH_PASSWORD_VALIDATORS = [
     },
 ]
 
+def show_toolbar(request):
+    return True
 
+SHOW_TOOLBAR_CALLBACK = show_toolbar
 # Internationalization
 # https://docs.djangoproject.com/en/3.2/topics/i18n/
 

@@ -21,13 +21,25 @@ class ProductView(DetailView):
 
 
 def add_to_cart(request, pk):
-    product = get_object_or_404(Product, pk=pk)
+# def add_to_cart(request):
+    print("ajax: ")
+    
+    if request.method == 'GET':
+            response_json = request.GET
+            response_json = json.dumps(response_json)
+            data = json.loads(response_json)
+            print(data)
+            for key, value in data.items():  # for name, age in dictionary.iteritems():  (for Python 2.x)
+                print(key)
+                print('value: ', str(value))
+    # if request.method == 'POST':
+    #     print("fetch")
+    #     response_json = request.POST
+    #     response_json = json.dumps(response_json)
+    #     data2 = json.loads(response_json)
+    #     print(data2)
 
-    cart_item = request.GET.get('cart_item', None)
-    
-    print(product)
-    
-    return HttpResponse(product)
+    return JsonResponse(data)
 
 def add_product(request):
     # cart = Cart(request)
