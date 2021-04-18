@@ -20,7 +20,7 @@
 }
     </style>
 <H3> Shopping Cart</H3>
-<table summary="Your Shopping Cart" class="table" id="shopping_cart">
+<table summary="Your Shopping Cart" class="table table-bordered" id="shopping_cart">
 
     <thead class="thead-dark">
     <tr>
@@ -50,5 +50,9 @@
    <div float="right"  padding= "30px" class="div_subtotal">
       <p font-size ="large"style="text-align:right" >Subtotal: <b> {{object.get_total_amount}} €<p> </b><tr>
     
+</div>
+<div float="right"  padding= "30px" class="div_subtotal">
+    <p font-size ="large"style="text-align:right" >Subtotal: <b> {{object.update_subtotal}} €<p> </b><tr>
+  
 </div>
    {% endblock content %}

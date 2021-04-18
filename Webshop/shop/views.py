@@ -53,6 +53,7 @@ def add_to_cart(request, pk):
         ci.date_added = date_added
         ci.product = p
         ci.user = request.user
+        ci.augment_quantity(ci.quantity)
         ci.save()
         cart_qs = Cart.objects.filter(user=request.user)
 
@@ -60,12 +61,15 @@ def add_to_cart(request, pk):
             cart = cart_qs[0]
             
             cart.count = cart.products.count()
-            print(cart.count)
+            cart.products.add(ci)
+            print("cart.count: ", cart.count)
             cart.save()
 
             if cart.products.filter(product__pk=pk).exists():
                 ci.augment_quantity(ci.quantity)
+                cart.products.add(ci)
                 ci.save()
+                cart.save()
                 return redirect("shop:shopping_cart")
             else:
                 cart.products.add(ci)

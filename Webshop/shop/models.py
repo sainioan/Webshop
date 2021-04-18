@@ -1,5 +1,6 @@
 from django.db import models
 from django.shortcuts import reverse
+from decimal import Decimal
 from django.utils.timezone import *
 from django.conf import settings
 # Create your models here.
@@ -72,10 +73,19 @@ class Cart(models.Model):
     products = models.ManyToManyField(CartItem)
     count = models.DecimalField(default=0, max_digits=10, decimal_places=0)
     date = models.DateField(auto_now_add=True)
-    
+
 
     def get_total_amount(self):
         total = 0
         for pr in self.products.all():
             total += pr.price()
         return total
+
+    def update_subtotal(self):
+        subtotal = 0
+        prs = self.products.all()
+        print("prs", prs)
+        for item in prs:
+            subtotal += item.price()
+        self.subtotal = "%.2f" %(subtotal)
+        self.save()
