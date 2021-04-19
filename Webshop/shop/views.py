@@ -8,7 +8,7 @@ from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 
-current_user = []
+item_count = []
 
 # Create your views here.
 
@@ -18,46 +18,32 @@ current_user = []
 
 def products(request):
     product_list = Product.objects.all()
-    return render(request, "index.html", {"product_list": product_list})
+    if item_count:
+        count = item_count[0]
+    else: 
+        count = 0
+    return render(request, "index.html", {"product_list": product_list, "items": count })
 
 
 class ProductView(DetailView):
     model = Product
     template_name = "product.html"
+  
+    def get_context_data(self, **kwargs):
+        context = super(ProductView, self).get_context_data(**kwargs)
+        if item_count:
+            count = item_count[0]
+        else: 
+            count = 0
+        context['items'] = count
+        return context
+    
 
 
 def update_cart(sender, instance, **kwargs):
     line_cost = instance.quantity * instance.product.cost
     instance.cart.count += instance.quantity
     instance.cart.updated = datetime.now()
-# @login_required
-# def add_to_cart(request, slug):
-#     item = get_object_or_404(Item, slug=slug)
-#     order_item, created = OrderItem.objects.get_or_create(
-#         item=item,
-#         user=request.user,
-#         ordered=False
-#     )
-#     order_qs = Order.objects.filter(user=request.user, ordered=False)
-#     if order_qs.exists():
-#         order = order_qs[0]
-#         # check if the order item is in the order
-#         if order.items.filter(item__slug=item.slug).exists():
-#             order_item.quantity += 1
-#             order_item.save()
-#             messages.info(request, "This item quantity was updated.")
-#             return redirect("core:order-summary")
-#         else:
-#             order.items.add(order_item)
-#             messages.info(request, "This item was added to your cart.")
-#             return redirect("core:order-summary")
-#     else:
-#         ordered_date = timezone.now()
-#         order = Order.objects.create(
-#             user=request.user, ordered_date=ordered_date)
-#         order.items.add(order_item)
-#         messages.info(request, "This item was added to your cart.")
-#         return redirect("core:order-summary")
 
 
 def add_to_cart(request, pk):
@@ -108,9 +94,7 @@ def add_to_cart(request, pk):
 
 
 def remove_from_cart(request, pk):
-    print("ajax_remove: ")
-    print("ajax_remove: ")
-
+  
     if request.method == "GET":
         response_json = request.GET
         response_json = json.dumps(response_json)
@@ -132,9 +116,11 @@ class ShoppingCartView(View):
 
         try:
             user = User.objects.get(id=self.request.user.id)
-            print(user)
             cart = Cart.objects.get(user=user)
-            print(cart)
+            if cart:
+                items = cart.get_items_total()
+                item_count.clear()
+                item_count.append(items)
             context = {"object": cart}
             return render(self.request, "shopping_cart.html", context)
         except ObjectDoesNotExist:
@@ -147,16 +133,8 @@ def shopping_cart(request):
     template_name = "shopping_cart.html"
     cart = Cart.objects.filter(user=request.user)
     context = {"object": cart}
-    # def get_cart(request):
     return render(request, "shopping_cart.html", context)
-    # def get(self, *args, **kwargs):
 
-    #     try:
-    #         cart = Cart.objects.get(user=request.user)
-
-    #     except ObjectDoesNotExist:
-    #         messages.error(self.request, "You have nothing in your shopping cart ")
-    #         return redirect("/")
 
 
 def search(request):

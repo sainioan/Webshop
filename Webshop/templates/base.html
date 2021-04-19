@@ -41,17 +41,12 @@
                     <li class="nav-item active">
                         <a class="nav-link" href="{% url 'shop:index' %}" >Home <span class="sr-only">(current)</span></a>
                     </li>
-                    <li class="nav-item">
-                        <a class="nav-link" href="#">Link</a>
-                    </li>
                 </ul>
                 <ul class="navbar-nav nav-flex-icons">
-          
-         
                     <li class="nav-item">
                           <span class="badge  z-depth-1 mr-1">  </span>
                         <button> 
-                        <i class="fas fa-shopping-cart"></i> {{object.get_items_total}} </button> 
+                        <i class="fas fa-shopping-cart"></i> {{ object.get_items_total}} {{items}} </button> 
                         <span class="clearfix d-none d-sm-inline-block"> Cart </span>
                         </a>
                     </li>
