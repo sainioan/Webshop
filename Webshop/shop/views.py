@@ -83,8 +83,8 @@ def add_to_cart(request, pk):
         if cart_qs.exists():
             cart = cart_qs[0]
             if cart.products.filter(product__product_name=product.product_name).exists():
-                ci.augment_quantity(ci.quantity)
-                ci.save()
+                ci[0].quantity = ci[0].quantity + 1
+                ci[0].save()
                 messages.info(request, "The product was added to your cart.")
                 return redirect("shop:shopping_cart")
             else:
@@ -106,30 +106,6 @@ def add_to_cart(request, pk):
             messages.info(request, "The product was added to your cart")
             return redirect("shop:shopping_cart")
 
-    #         if cart.products.filter(product__pk=pk).exists():
-    #             ci.augment_quantity(ci.quantity)
-    #             cart.products.add(ci)
-    #             ci.save()
-    #             cart.save()
-    #             return redirect("shop:shopping_cart")
-    #         else:
-    #             cart.products.add(ci)
-    #             return redirect("shop:shopping_cart")
-
-    #     else:
-    #         cart.products.add(ci) 
-    #         cart.count = 1
-    #         cart.save()
-    #         print(cart.count)
-    #         return redirect("shop:shopping_cart")   
-        
-    # else:
-    #     date_added = timezone.now()
-    #     ci.date_added = date_added
-    #     ci.save()
-    #     cart.products.add(ci)
-    #     return redirect("shop:shopping_cart")
-
 
 def remove_from_cart(request, pk):
     print("ajax_remove: ")
@@ -145,10 +121,8 @@ def remove_from_cart(request, pk):
         if ci is None:
             messages.info(request, "The item is not in your shopping cart.")
             return redirect("shop:product", pk = pk)
-        ci.delete()
         ci.reduce_quantity(ci.quantity)
         ci.save()
-        messages.info(request, "Item \""+cartItem.product.product_name+"\" removed from your cart")
         return redirect("shop:shopping_cart")
 
 

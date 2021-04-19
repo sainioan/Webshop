@@ -3,8 +3,9 @@
 {% block content %}
 
 <h1>Happy Shopping, {{ user.username }}! </h1>
-
+<div class="grid-wrapper">
 {% for product in product_list %}
+<div class="grid-item">
 <div class="view overlay">
     <h5 class="card-title">{{ product.product_name }}</h5>
     <img src="{{product.image.url}}" alt="product" width="210" height="250">
@@ -22,6 +23,7 @@
   </div>
   </div>
 </div>
+</div>
 {% endfor %}
-
+</div>
 {% endblock content %}

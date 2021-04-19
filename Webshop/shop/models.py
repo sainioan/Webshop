@@ -65,6 +65,10 @@ class CartItem(models.Model):
     def augment_quantity(self, quantity):    
         self.quantity = self.quantity + 1
         self.save() 
+    
+    def reduce_quantity(self, quantity):    
+        self.quantity = self.quantity -1
+        self.save() 
 
 
 class Cart(models.Model):
