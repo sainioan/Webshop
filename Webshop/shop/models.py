@@ -80,5 +80,13 @@ class Cart(models.Model):
         for pr in self.products.all():
             total += pr.price()*pr.quantity
         return total
+    
+    
+    def get_items_total(self):
+        total = 0
+        for pr in self.products.all():
+            total += pr.quantity
+        return total
+
 
   

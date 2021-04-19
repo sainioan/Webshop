@@ -92,14 +92,24 @@ def add_to_cart(request, pk):
 
 def remove_from_cart(request, pk):
     print("ajax_remove: ")
+    print("ajax_remove: ")
 
     if request.method == "GET":
         response_json = request.GET
         response_json = json.dumps(response_json)
         data = json.loads(response_json)
         print(data["cartItem"])
+        ci = data["cartItem"]
+        ci = CartItem.objects.filter(product_id=pk)[0]
+        if ci is None:
+            messages.info(request, "The item is not in your shopping cart.")
+            return redirect("shop:product", pk = pk)
+        ci.delete()
+        ci.reduce_quantity(ci.quantity)
+        ci.save()
+        messages.info(request, "Item \""+cartItem.product.product_name+"\" removed from your cart")
+        return redirect("shop:shopping_cart")
 
-    return JsonResponse(data)
 
 
 class ShoppingCartView(View):
