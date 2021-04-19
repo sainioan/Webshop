@@ -63,7 +63,7 @@ class CartItem(models.Model):
         return self.product.get_absolute_url()
 
     def augment_quantity(self, quantity):    
-        self.quantity = self.quantity + int(quantity)
+        self.quantity = self.quantity + 1
         self.save() 
 
 
@@ -81,7 +81,7 @@ class Cart(models.Model):
             total += pr.price()*pr.quantity
         return total
     
-    
+
     def get_items_total(self):
         total = 0
         for pr in self.products.all():
