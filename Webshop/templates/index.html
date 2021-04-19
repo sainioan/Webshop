@@ -17,12 +17,13 @@
 <h1>Happy Shopping, {{ user.username }}! </h1>
 <div class="grid-wrapper">
 <div>
-  <h6><b>Search by price</b></h6>
+  <h6><b>Search by code</b></h6>
+  <!-- change this search -->
 <form>
 <input id="min" type="text" name="min_price"  >
 to <input id="max" type="text" name="max_price"  > 
 
-<input type="submit" value="Go" onmousedown="postPriceData();">
+<input type="submit" value="Go" onmousedown="postCodeData();">
 </form>
 
 </div>
@@ -48,7 +49,8 @@ to <input id="max" type="text" name="max_price"  >
     
     <script>
     // $.noConflict();g
-    function postPriceData() {
+    //change to code 
+    function postCodeData() {
       var min = document.getElementById("min").value
       var max = document.getElementById("max").value
       var data = {min: min, max:max};
@@ -72,7 +74,7 @@ function postNameData() {
     var data = {product_name: product_name};
   $.ajax({
     type: "GET",
-    url: "search_by_name/",
+    url: "{% url 'shop:index' %}",
     data: JSON.stringify(data),
     success: function(data){
         console.log("success");
@@ -84,12 +86,13 @@ function postNameData() {
     },
 });
 }
-  </script>
 
+  </script>
 {% for product in product_list %}
+
 <div class="grid-item">
 <div class="view overlay">
-    <h5 class="card-title">{{ product.product_name }}</h5>
+    <h5 class="card-title">{{ product.product_name.title }}</h5>
     <img src="{{product.image.url}}" alt="product" width="210" height="250">
     <br />
     <a href="{{ product.view_product}}"  class="blue-text">Shop now!
@@ -98,7 +101,7 @@ function postNameData() {
   
 <div float='left' class="card" style="width: 18rem;">
   <div class="card-body">
-    <h5 class="card-title">{{ product.product_name }}</h5>
+    <h5 class="card-title">{{ product.product_name.title }}</h5>
     <p class="card-text">{{ product.description }}</p>
     <p class="card-text">Price - {{ product.price }} €</p>
     <a href="{{ product.view_product}}" class="btn btn-primary">See more</a>

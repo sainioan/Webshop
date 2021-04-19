@@ -9,8 +9,12 @@ from django.contrib.auth.decorators import login_required
 from django.utils import timezone
 from django.db.models import Q
 from decimal import Decimal
+from django.http import HttpResponse
+from django.template import loader
 
 item_count = []
+items_by_name = []
+items_by_price = []
 
 # Create your views here.
 
@@ -20,11 +24,25 @@ item_count = []
 
 def products(request):
     product_list = Product.objects.all()
+    products = Product.objects.all().order_by('product_name').order_by('price')
+
+    if request.method == "GET":
+        print("NAME")
+        response_json = request.GET
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+        print("data: ", data)
+        for key, value in data.items():
+            print("key: ", key)
+            print("value, ", value)
+            product_name = value
+            my_products_by_name = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
+            product_list = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
     if item_count:
         count = item_count[0]
     else:
         count = 0
-    return render(request, "index.html", {"product_list": product_list, "items": count})
+    return render(request, "index.html", {"product_list": product_list, "items": count, "my_products":my_products_by_name})
 
 
 class ProductView(DetailView):
@@ -39,12 +57,6 @@ class ProductView(DetailView):
             count = 0
         context["items"] = count
         return context
-
-
-def update_cart(sender, instance, **kwargs):
-    line_cost = instance.quantity * instance.product.cost
-    instance.cart.count += instance.quantity
-    instance.cart.updated = datetime.now()
 
 
 def add_to_cart(request, pk):
@@ -135,31 +147,45 @@ def shopping_cart(request):
     template_name = "shopping_cart.html"
     cart = Cart.objects.filter(user=request.user)
     context = {"object": cart}
-    return render(request, "shopping_cart.html", context)
+    return redirect(request, "shopping_cart.html", context)
 
+#change to search by code
+#implement sorting by name and price
 
-def search_by_price(request):
+def search_by_code(request):
     if request.method == "GET":
         print("PRICE")
         response_json = request.GET
         response_json = json.dumps(response_json)
         data = json.loads(response_json)
         print("data", data)
-        print(str(data))
-        for key, value in data.items():
-            print(key)
-            print("value: ", str(value))
-        # filter_min = Decimal(data['min'])
-        # filter_max = Decimal(data['max'])
-        # print("min: ", filter_min)
-        # print("max:", filter_max)
-        # my_products=Product.objects.filter(price__range(filter_min,filter_max))
-        # print(my_products)
-        context = {"my_products": ""}
-        return render(request, "search.html", context)
-    else:
-        return redirect("/")
-    return redirect("/")
+        for value in data:
+            arr = value.split(",")
+        min_arr = arr[0].split(":")
+        max_arr = arr[1].split(":")
+        min_arr[1] = min_arr[1].replace("{", "")
+        min_arr[1] = min_arr[1].replace("}", "")
+        min_arr[1] = min_arr[1].strip('"')
+        min_val = Decimal(min_arr[1])
+        max_arr[1] = max_arr[1].replace("{", "")
+        max_arr[1] = max_arr[1].replace("}", "")
+        max_arr[1] = max_arr[1].strip('"')
+        max_val = Decimal(max_arr[1])
+
+        my_products_by_price = Product.objects.all().filter(
+            price__range=[min_val, max_val]
+        )
+        #implement sorting by name and price
+        print("my_products_by_price", my_products_by_price)
+        items_by_price.clear()
+        for obj in my_products_by_price:
+            items_by_price.append(obj)
+        context = {"my_products": my_products_by_price}
+        t = loader.get_template('search.html')
+    return redirect(request, "search_by_code.html", {"my_products": my_products_by_price})
+    # else:
+    #     return redirect("/")
+    # return redirect("/")
 
 
 def search_by_name(request):
@@ -168,14 +194,35 @@ def search_by_name(request):
         response_json = request.GET
         response_json = json.dumps(response_json)
         data = json.loads(response_json)
-        print("response_json", response_json)
-        print("data", data)
-        # product_name = data['product_name']
-        # print("product_name", product_name)
-        # my_products=Product.objects.filter(product_name=product_name)
-        # print(my_products)
-        context = {"my_products": ""}
-        return render(request, "search.html", context)
-    else:
-        return redirect("/")
-    return redirect("/")
+        for value in data:
+            arr = value.split(":")
+        arr[1] = arr[1].replace("{", "")
+        arr[1] = arr[1].replace("}", "")
+        arr[1] = arr[1].strip('"')
+        product_name = arr[1]
+
+        my_products_by_name = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
+        print(my_products_by_name)
+        items_by_name.clear()
+        for obj in my_products_by_name:
+            items_by_name.append(obj)
+        context = {"my_products": my_products_by_name}
+    return render(request, "search_by_name.html", {"my_products": my_products_by_name})
+    # else:
+    #     return redirect("/")
+    # return redirect("/")
+
+
+class SearchView(View):
+    model = Product
+    template_name = "search.html"
+
+    def get_context_data(self, **kwargs):
+        context = super(SearchView, self).get_context_data(**kwargs)
+        if items_by_name:
+            context["my_products"] = items_by_name
+        elif items_by_price:
+            context["my_products"] = items_by_price
+        else:
+            context["my_products"] = {}
+        return context
