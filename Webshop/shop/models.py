@@ -78,14 +78,7 @@ class Cart(models.Model):
     def get_total_amount(self):
         total = 0
         for pr in self.products.all():
-            total += pr.price()
+            total += pr.price()*pr.quantity
         return total
 
-    def update_subtotal(self):
-        subtotal = 0
-        prs = self.products.all()
-        print("prs", prs)
-        for item in prs:
-            subtotal += item.price()
-        self.subtotal = "%.2f" %(subtotal)
-        self.save()
+  
