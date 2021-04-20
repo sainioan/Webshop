@@ -17,6 +17,7 @@ items_by_name = []
 items_by_price = []
 
 
+
 def products(request):
     product_list = Product.objects.all()
     products = Product.objects.all().order_by('product_name').order_by('price')
@@ -59,8 +60,6 @@ class ProductView(DetailView):
 
 
 def add_to_cart(request, pk):
-    current_user.clear()
-    current_user.append(request.user)
     cart = Cart.objects.get_or_create(user=request.user)
 
     if request.method == "GET":
@@ -139,77 +138,6 @@ class ShoppingCartView(View):
         except ObjectDoesNotExist:
             messages.error(self.request, "You do not have an order")
             return redirect("/")
-
-
-def shopping_cart(request):
-    model = Cart
-    template_name = "shopping_cart.html"
-    cart = Cart.objects.filter(user=request.user)
-    context = {"object": cart}
-    return redirect(request, "shopping_cart.html", context)
-
-#change to search by code
-#implement sorting by name and price
-
-def search_by_code(request):
-    if request.method == "GET":
-        print("PRICE")
-        response_json = request.GET
-        response_json = json.dumps(response_json)
-        data = json.loads(response_json)
-        print("data", data)
-        for value in data:
-            arr = value.split(",")
-        min_arr = arr[0].split(":")
-        max_arr = arr[1].split(":")
-        min_arr[1] = min_arr[1].replace("{", "")
-        min_arr[1] = min_arr[1].replace("}", "")
-        min_arr[1] = min_arr[1].strip('"')
-        min_val = Decimal(min_arr[1])
-        max_arr[1] = max_arr[1].replace("{", "")
-        max_arr[1] = max_arr[1].replace("}", "")
-        max_arr[1] = max_arr[1].strip('"')
-        max_val = Decimal(max_arr[1])
-
-        my_products_by_price = Product.objects.all().filter(
-            price__range=[min_val, max_val]
-        )
-        #implement sorting by name and price
-        print("my_products_by_price", my_products_by_price)
-        items_by_price.clear()
-        for obj in my_products_by_price:
-            items_by_price.append(obj)
-        context = {"my_products": my_products_by_price}
-        t = loader.get_template('search.html')
-    return redirect(request, "search_by_code.html", {"my_products": my_products_by_price})
-    # else:
-    #     return redirect("/")
-    # return redirect("/")
-
-
-def search_by_name(request):
-    if request.method == "GET":
-        print("NAME")
-        response_json = request.GET
-        response_json = json.dumps(response_json)
-        data = json.loads(response_json)
-        for value in data:
-            arr = value.split(":")
-        arr[1] = arr[1].replace("{", "")
-        arr[1] = arr[1].replace("}", "")
-        arr[1] = arr[1].strip('"')
-        product_name = arr[1]
-
-        my_products_by_name = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
-        print(my_products_by_name)
-        items_by_name.clear()
-        for obj in my_products_by_name:
-            items_by_name.append(obj)
-        context = {"my_products": my_products_by_name}
-    return render(request, "search_by_name.html", {"my_products": my_products_by_name})
-    # else:
-    #     return redirect("/")
-    # return redirect("/")
 
 
 class SearchView(View):

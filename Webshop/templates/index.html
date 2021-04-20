@@ -35,6 +35,14 @@
   width: 200px;
   padding-left: 25px;
 }
+.img-wrap {
+  width: 200px;
+  height: 150px;
+  position: relative;
+  display: inline-block;
+  overflow: hidden;
+  margin: 0;
+}
  </style>
 </head>
 
@@ -45,28 +53,8 @@
 <h1>Happy Shopping, {{ user.username }}! </h1>
 <div class="grid-wrapper">
 <div>
-<!-- 
-  <div class="md-form mt-0"></div> -->
-  <!-- <div class="SearchBar"></div>
-<form>
-<input id="code" type="text"placeholder="search by code"   name="code"  >
-<i class="material-icons mdc-button__icon">search
-<input type="submit" value="search" onmousedown="postCodeData();">
-</i>
-</form>
-</div> -->
-</div>
 
-  <!-- <div class="SearchBar"> -->
-   
-   <!-- <form name="product_name">
-    <div class="md-form mt-0">
-  <input  id="product_name"  placeholder="search by name or code"  type="text" name="name" >
-  <i class="material-icons mdc-button__icon">
-  <input type="submit" value="search" onmousedown="postNameData();">
-</i>
 </div>
-   </form> -->
 
 
   </div>
@@ -82,25 +70,6 @@
     </script> -->
     
     <script>
-    // $.noConflict();g
-    //change to code 
-    function postCodeData() {
-      var code = document.getElementById("code").value
-      var data = {code:code};
-   $.ajax({
-    type: "GET",
-    url: "search_by_price/",
-    data: JSON.stringify(data),
-    success: function(data){
-        console.log("success");
-        console.log(data);
-    },
-    failure: function(data){
-        console.log("failure");
-        console.log(data);
-    },
-});
-}
 
 function postNameData() {
   var product_name = document.getElementById("keyword").value
@@ -122,11 +91,16 @@ function postNameData() {
 
   </script>
 {% for product in product_list %}
+<!-- 
+<div class="grid-item"> -->
 
-<div class="grid-item">
+  <div class="col-sm-6 col-md-4">
+    <div class="animate-bottom thumbnail">
 <div class="view overlay">
     <h5 class="card-title">{{ product.product_name.title }}</h5>
-    <img src="{{product.image.url}}" alt="product" width="210" height="250">
+    <div class="img-wrap">
+    <img class="img-responsive" height="250" src="{{product.image.url}}" alt="{{product}}">
+    </div>
     <br />
     <a href="{{ product.view_product}}"  class="blue-text">Shop now!
       <div class="mask rgba-white-slight"></div>
@@ -140,6 +114,7 @@ function postNameData() {
     <a href="{{ product.view_product}}" class="btn btn-primary">See more</a>
   </div>
   </div>
+</div>
 </div>
 </div>
 {% endfor %}
