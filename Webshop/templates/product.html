@@ -31,14 +31,15 @@
             };
         </script>
         <div float="left">
-        <button id="add_button" background-color='#008CBA'  width="18em"  class="btn btn-primary btn-md my-0 p" onClick="postData(url, data);"> Add {{ object.product_name }} to cart 
+        <button id="add_button" background-color='#008CBA'  width="18em"  class="btn btn-primary btn-md my-0 p" onClick="postData(url, data);doNext()"> Add {{ object.product_name }} to cart 
             <i class="fas fa-shopping-cart ml-1"></i>
         </button> 
         </div>
         <script type="text/javascript">
-            document.getElementById("add_button").onclick = function () {
-                location.href = "{% url 'shop:shopping_cart'%}" ;
-            };
+      
+            // document.getElementById("add_button").onclick = function () {
+            //     location.href = "{% url 'shop:shopping_cart'%}" ;
+            // }
         </script>
         <script>
              var cartItem = `{{product.id}}`
@@ -105,6 +106,10 @@
     success: function(data){
         console.log("success");
         console.log(data);
+        window.location.href = "{% url 'shop:shopping_cart'%}" ;
+        // document.getElementById("add_button").onclick = function () {
+        //         location.href = "{% url 'shop:shopping_cart'%}" ;
+        //     }
     },
     failure: function(data){
         console.log("failure");
