@@ -1,5 +1,6 @@
 from django.shortcuts import render, get_object_or_404, redirect
 from .models import *
+from .forms import *
 from django.contrib.auth.models import User
 from django.views.generic import ListView, DetailView, View
 from django.http import JsonResponse, HttpResponse
@@ -13,14 +14,10 @@ from django.http import HttpResponse
 from django.template import loader
 
 item_count = []
-items_by_name = []
-items_by_price = []
-
-
 
 def products(request):
     product_list = Product.objects.all()
-    products = Product.objects.all().order_by('product_name').order_by('price')
+    products = Product.objects.all().order_by("product_name").order_by("price")
 
     if request.method == "GET":
         print("NAME")
@@ -33,16 +30,33 @@ def products(request):
             print("key: ", key)
             print("value, ", value)
             keyword = value
-            my_products_by_name = Product.objects.filter(Q(product_name__icontains=keyword) |
-            Q(code__icontains=keyword) 
-            ).order_by('product_name').order_by('price')
-            product_list = Product.objects.filter(Q(product_name__icontains=keyword) |
-            Q(code__icontains=keyword)).order_by('product_name').order_by('price')
+            my_products_by_name = (
+                Product.objects.filter(
+                    Q(product_name__icontains=keyword) | Q(code__icontains=keyword)
+                )
+                .order_by("product_name")
+                .order_by("price")
+            )
+            product_list = (
+                Product.objects.filter(
+                    Q(product_name__icontains=keyword) | Q(code__icontains=keyword)
+                )
+                .order_by("product_name")
+                .order_by("price")
+            )
     if item_count:
         count = item_count[0]
     else:
         count = 0
-    return render(request, "index.html", {"product_list": product_list, "items": count, "my_products":my_products_by_name})
+    return render(
+        request,
+        "index.html",
+        {
+            "product_list": product_list,
+            "items": count,
+            "my_products": my_products_by_name,
+        },
+    )
 
 
 class ProductView(DetailView):
@@ -140,16 +154,13 @@ class ShoppingCartView(View):
             return redirect("/")
 
 
-class SearchView(View):
-    model = Product
-    template_name = "search.html"
-
-    def get_context_data(self, **kwargs):
-        context = super(SearchView, self).get_context_data(**kwargs)
-        if items_by_name:
-            context["my_products"] = items_by_name
-        elif items_by_price:
-            context["my_products"] = items_by_price
+class CheckoutView(View):
+    def get(self, *args, **kwargs):
+        form = CheckoutForm()
+        cart = Cart.objects.get(user=self.request.user)
+        if item_count:
+            count = item_count[0]
         else:
-            context["my_products"] = {}
-        return context
+            count = 0
+        context = {"form": form, "order": cart, "items" : count }
+        return render(self.request, "checkout-page.html", context)

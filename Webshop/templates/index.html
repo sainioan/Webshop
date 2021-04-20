@@ -43,6 +43,9 @@
   overflow: hidden;
   margin: 0;
 }
+.happy shopping {
+  float: "right";
+}
  </style>
 </head>
 
@@ -50,7 +53,7 @@
 
 {% block content %}
 
-<h1>Happy Shopping, {{ user.username }}! </h1>
+
 <div class="grid-wrapper">
 <div>
 
@@ -90,6 +93,7 @@ function postNameData() {
 }
 
   </script>
+   <div class="row">
 {% for product in product_list %}
 <!-- 
 <div class="grid-item"> -->
@@ -118,5 +122,9 @@ function postNameData() {
 </div>
 </div>
 {% endfor %}
+</div>
+<div class="happy_shopping">
+<h6>Happy Shopping, {{ user.username }}! </h6>
+</div>
 </div>
 {% endblock content %}

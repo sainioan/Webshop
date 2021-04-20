@@ -77,6 +77,15 @@
       </div>
       <hr>
     </div>
+    <div>
+        {% if items %}
+        <h4 class="d-flex justify-content-between align-items-center mb-3">
+            <span class="text-muted">Your cart</span>
+            <span class="badge badge-secondary badge-pill">{{items}}</span>
+          </h4>
+          {% endif %}
+    </div>
+
     <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
 
     <script>

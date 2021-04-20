@@ -86,26 +86,33 @@
 .searchBar input[type="text"]{
    background-color: aliceblue;
 }
-/* .searchBar input[type="submit"] {
-    position:relative;
-    right:10%;
-    top:25%;
-    width:30%;
-    width:30px;
-    background-color:white;
-    color:grey;
-} */
-   /* .searchBar {
-    float: "right";
-    width:500px;
-
+.welcome{
+    margin-left: 35px;
+}
+.cart_icon {
+    margin-left: 35px;
+    margin-top: 18px;
+}
+.link_to_shopping_cart {
+    margin-top: 18px;
+}
+.sr-only{
+    margin-top: 18px;
+}
+/* .nav-link {
+    margin-top: 18px;
 } */
   </style>
 </head>  
 <body>  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+       <!-- " static_templates/webshop_logo.jpg" -->
+        <img src="{% static 'webshop_logo.jpg' %}" height="100" alt="logo">
+        <div class="welcome"></div>
+        <a class="navbar-brand" href="{% url 'shop:index' %}">    @Welcome to Webshop!</a> 
         <div class="container">
-            <a class="navbar-brand" href="#">Navbar</a>
+            <!-- <a class="navbar-brand" href="{% url 'shop:index' %}">Home</a>     -->
+           
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
                 <span class="navbar-toggler-icon"></span>
@@ -116,14 +123,9 @@
                         <a class="nav-link" href="{% url 'shop:index' %}" >Home <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
+                
                 <ul class="navbar-nav nav-flex-icons">
-                    <li class="nav-item">
-                          <span class="badge  z-depth-1 mr-1">  </span>
-                        <button> 
-                        <i class="fas fa-shopping-cart"></i> {{ object.get_items_total}} {{items}} </button> 
-                        <span class="clearfix d-none d-sm-inline-block">  </span>
-                        </a>
-                    </li>
+                    <div class="link_to_shopping_cart">
                     <li class="nav-item active">
                         {% if "shop:shopping_cart" %}
                      <a class="nav-link"  href="{% url 'shop:shopping_cart' %}" class="btn" >Shopping Cart
@@ -132,10 +134,19 @@
                       {% endif %}
                       <span class="clearfix d-none d-sm-inline-block"> </span>
                   </li>
+                </div>
+                    <li class="nav-item">
+                          <span class="badge  z-depth-1 mr-1">  </span>
+                        <button class="cart_icon"> 
+                        <i class="fas fa-shopping-cart"></i> {{ object.get_items_total}} {{items}} </button> 
+                        <span class="clearfix d-none d-sm-inline-block">  </span>
+                        </a>
+                    </li>
+               
                     <span class="sr-only">(current)</span>
                     <li class="nav-item">
                          <a class="nav-link waves-effect">
-                        Hi {{ user.username }}!
+                        Hello, {{ user.username }}!
                         </a>
                     </li>
         

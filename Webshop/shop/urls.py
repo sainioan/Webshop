@@ -14,4 +14,5 @@ urlpatterns = [
     url(r"^(?P<id>[\w-]+)/$", views.ProductView.as_view(), name="product"),
     path("product/<pk>/add_to_cart/", add_to_cart, name="add_to_cart"),
     path("product/<pk>/remove_from_cart/", remove_from_cart, name="remove_from_cart"),
+    path('shopping_cart/checkout/', CheckoutView.as_view(), name='checkout'),
 ]
