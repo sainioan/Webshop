@@ -7,7 +7,35 @@
   <!-- <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script> -->
   <script src='https://code.jquery.com/jquery-3.3.1.min.js'></script>
   <script src="/lib/jquery.plugin.js"></script>
- 
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+ <style>
+   .SearchBar {
+     position: absolute;
+     top: 355px;
+     left: 575px;
+}
+
+.SearchBar input {
+   position: absolute;
+     height: 30px;
+     width: 150px;
+}
+.md-form.mt-0{
+  width:400px;
+  display:flex;
+  align-items: center;  
+}
+
+.material-icons.mdc-button__icon{
+  position:absolute;
+}
+
+.mdc-button__icon + input{
+  width: 200px;
+  padding-left: 25px;
+}
+ </style>
 </head>
 
 <script src="http://ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js" type="text/javascript"></script>
@@ -17,22 +45,28 @@
 <h1>Happy Shopping, {{ user.username }}! </h1>
 <div class="grid-wrapper">
 <div>
-  <h6><b>Search by code</b></h6>
-  <!-- change this search -->
+<!-- 
+  <div class="md-form mt-0"></div> -->
+  <!-- <div class="SearchBar"></div>
 <form>
-<input id="min" type="text" name="min_price"  >
-to <input id="max" type="text" name="max_price"  > 
-
-<input type="submit" value="Go" onmousedown="postCodeData();">
+<input id="code" type="text"placeholder="search by code"   name="code"  >
+<i class="material-icons mdc-button__icon">search
+<input type="submit" value="search" onmousedown="postCodeData();">
+</i>
 </form>
-
+</div> -->
 </div>
-<div>
-    <h6><b>Search by name<b></h6>
-   <form name="product_name">
-  <input  id="product_name"  type="text" name="name" >
-  <input type="submit" value="Go" onmousedown="postNameData();">
-   </form>
+
+  <!-- <div class="SearchBar"> -->
+   
+   <!-- <form name="product_name">
+    <div class="md-form mt-0">
+  <input  id="product_name"  placeholder="search by name or code"  type="text" name="name" >
+  <i class="material-icons mdc-button__icon">
+  <input type="submit" value="search" onmousedown="postNameData();">
+</i>
+</div>
+   </form> -->
 
 
   </div>
@@ -51,9 +85,8 @@ to <input id="max" type="text" name="max_price"  >
     // $.noConflict();g
     //change to code 
     function postCodeData() {
-      var min = document.getElementById("min").value
-      var max = document.getElementById("max").value
-      var data = {min: min, max:max};
+      var code = document.getElementById("code").value
+      var data = {code:code};
    $.ajax({
     type: "GET",
     url: "search_by_price/",
@@ -70,7 +103,7 @@ to <input id="max" type="text" name="max_price"  >
 }
 
 function postNameData() {
-  var product_name = document.getElementById("product_name").value
+  var product_name = document.getElementById("keyword").value
     var data = {product_name: product_name};
   $.ajax({
     type: "GET",

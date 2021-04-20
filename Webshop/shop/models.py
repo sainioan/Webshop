@@ -13,6 +13,7 @@ CATEGORY = (
 class Product(models.Model):
 
     product_name = models.CharField(max_length=100)
+    code = models.CharField(max_length=100, null=True)
     category = models.CharField(choices=CATEGORY, max_length=2, null=True)
     price = models.DecimalField(max_digits=10, decimal_places=2)
     description = models.TextField(max_length=5000, null=True)

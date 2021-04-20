@@ -16,11 +16,6 @@ item_count = []
 items_by_name = []
 items_by_price = []
 
-# Create your views here.
-
-# def index(request):
-#     return render(request, "index.html", {})
-
 
 def products(request):
     product_list = Product.objects.all()
@@ -32,12 +27,16 @@ def products(request):
         response_json = json.dumps(response_json)
         data = json.loads(response_json)
         print("data: ", data)
+        my_products_by_name = []
         for key, value in data.items():
             print("key: ", key)
             print("value, ", value)
-            product_name = value
-            my_products_by_name = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
-            product_list = Product.objects.all().filter(product_name=product_name).order_by('product_name').order_by('price')
+            keyword = value
+            my_products_by_name = Product.objects.filter(Q(product_name__icontains=keyword) |
+            Q(code__icontains=keyword) 
+            ).order_by('product_name').order_by('price')
+            product_list = Product.objects.filter(Q(product_name__icontains=keyword) |
+            Q(code__icontains=keyword)).order_by('product_name').order_by('price')
     if item_count:
         count = item_count[0]
     else:

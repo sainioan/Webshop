@@ -27,6 +27,25 @@
     <link href="{% static 'more_css/css/bootstrap.min.css' %}" rel="stylesheet">
   <link href="{% static 'more_css/css/mdb.min.css' %}" rel="stylesheet">
   <link href=" {% static 'more_css/css/style.min.css' %}" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/icon?family=Material+Icons"
+      rel="stylesheet">
+      <meta name="viewport" content="width=device-width, initial-scale=1, shrink-to-fit=no">
+ 
+      <!-- Bootstrap CSS -->
+      <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
+   
+  <style>
+      body {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    margin-left: 25px;
+    margin-right: 25px;
+      }
+      .md-form.mt-0{
+  display:inline-flex;
+  width:500px;
+} 
+  </style>
 </head>  
 <body>  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
@@ -51,9 +70,11 @@
                         </a>
                     </li>
                     <li class="nav-item active">
+                        {% if "shop:shopping_cart" %}
                      <a class="nav-link"  href="{% url 'shop:shopping_cart' %}" class="btn" >Shopping Cart
       
                       <i class="fas fa-shopping-cart"></i></a> 
+                      {% endif %}
                       <span class="clearfix d-none d-sm-inline-block"> </span>
                   </li>
                     <span class="sr-only">(current)</span>
@@ -64,10 +85,19 @@
                     </li>
         
                 </ul>
-                <form class="form-inline my-2 my-lg-0">
-                    <input class="form-control mr-sm-2" type="search" placeholder="Search" aria-label="Search">
-                    <button class="btn btn-outline-success my-2 my-sm-0" type="submit">Search</button>
-                </form>
+                <form class="form-inline my-2 my-lg-0"  method="GET"  name="product_name" action="{% url 'shop:index' %}" >
+                    <div class="md-form mt-0">
+                  <input  id="product_name"  placeholder="search by name or code"  type="text" name="name" >
+                  <i class="material-icons mdc-button__icon">
+                  <input type="submit" value="search" onmousedown="postNameData();">
+                </i>
+                </div>
+                   </form>
+                <!-- <form class="form-inline my-2 my-lg-0"  method="GET" action="{% url 'shop:index' %}"  > 
+                    <input id='keyword' action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2" type="search" placeholder="Search by name or code" aria-label="Search"  onmousedown="postNameData();">
+                    <button id='keyword' class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick ="postNameData()">Search</button>
+                    
+                </form> -->
             </div>
         </div>
     </nav>
@@ -78,6 +108,11 @@
   {% endfor %}
 </ul>
 {% endif %}
-    {% block content %}{% endblock %}
+    {% block content %}
+    <script>
+        
+    </script>
+    {% endblock %}
+
 </body>  
 </html>   
