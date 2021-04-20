@@ -34,7 +34,34 @@
       <!-- Bootstrap CSS -->
       <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css" integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous">
    
-  <style>
+  <style type="text/css">
+          html,
+    body,
+    header,
+    .carousel {
+      height: 60vh;
+    }
+
+    @media (max-width: 740px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
+    @media (min-width: 800px) and (max-width: 850px) {
+
+      html,
+      body,
+      header,
+      .carousel {
+        height: 100vh;
+      }
+    }
+
       body {
     margin-top: 25px;
     margin-bottom: 25px;
@@ -42,9 +69,37 @@
     margin-right: 25px;
       }
       .md-form.mt-0{
-  display:inline-flex;
-  width:500px;
-} 
+    display:inline-flex;
+    width:500px;
+    float: "right";
+    } 
+
+    .searchBar  {
+    position:relative;
+    left:20%;
+    top:25%;
+    width:30%;
+    width:300px;
+    background-color: aliceblue;
+   
+    }
+.searchBar input[type="text"]{
+   background-color: aliceblue;
+}
+/* .searchBar input[type="submit"] {
+    position:relative;
+    right:10%;
+    top:25%;
+    width:30%;
+    width:30px;
+    background-color:white;
+    color:grey;
+} */
+   /* .searchBar {
+    float: "right";
+    width:500px;
+
+} */
   </style>
 </head>  
 <body>  
@@ -66,7 +121,7 @@
                           <span class="badge  z-depth-1 mr-1">  </span>
                         <button> 
                         <i class="fas fa-shopping-cart"></i> {{ object.get_items_total}} {{items}} </button> 
-                        <span class="clearfix d-none d-sm-inline-block"> Cart </span>
+                        <span class="clearfix d-none d-sm-inline-block">  </span>
                         </a>
                     </li>
                     <li class="nav-item active">
@@ -85,19 +140,25 @@
                     </li>
         
                 </ul>
+                <!-- <div class="searchBar">
                 <form class="form-inline my-2 my-lg-0"  method="GET"  name="product_name" action="{% url 'shop:index' %}" >
                     <div class="md-form mt-0">
                   <input  id="product_name"  placeholder="search by name or code"  type="text" name="name" >
                   <i class="material-icons mdc-button__icon">
                   <input type="submit" value="search" onmousedown="postNameData();">
                 </i>
-                </div>
+            </div>
+                </div> -->
                    </form>
-                <!-- <form class="form-inline my-2 my-lg-0"  method="GET" action="{% url 'shop:index' %}"  > 
-                    <input id='keyword' action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2" type="search" placeholder="Search by name or code" aria-label="Search"  onmousedown="postNameData();">
-                    <button id='keyword' class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick ="postNameData()">Search</button>
-                    
-                </form> -->
+                <form class="form-inline my-2 my-lg-0"  name="product_name"   method="GET" action="{% url 'shop:index' %}"  >
+                    <div class="md-form my-0"> 
+                    <input id='keyword'   action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2"  name="name" type="text" placeholder="Search by name or code" aria-label="Search"  onmousedown="postNameData();">
+                   <!-- <button id='keyword' class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick ="postNameData()">Search</button>  -->
+                    <i class="material-icons mdc-button__icon">
+                    <input type="submit" value="search" onmousedown="postNameData();">
+                </i>
+                </div>
+                </form>
             </div>
         </div>
     </nav>
