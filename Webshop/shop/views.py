@@ -136,6 +136,10 @@ def remove_from_cart(request, pk):
         ci.save()
         return redirect("shop:shopping_cart")
 
+def get_items_in_cart(user):
+    user = request.user
+    cart = Cart.objects.filter(user=user)
+    return cart.objects.get_items_total()
 
 class ShoppingCartView(View):
     def get(self, *args, **kwargs):

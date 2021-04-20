@@ -107,7 +107,7 @@
 <body>  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
        <!-- " static_templates/webshop_logo.jpg" -->
-        <img src="{% static 'webshop_logo.jpg' %}" height="100" alt="logo">
+        <img src="{% static 'webshop_logo.jpg' %}" height="120" alt="logo">
         <div class="welcome"></div>
         <a class="navbar-brand" href="{% url 'shop:index' %}">    @Welcome to Webshop!</a> 
         <div class="container">
@@ -137,8 +137,8 @@
                 </div>
                     <li class="nav-item">
                           <span class="badge  z-depth-1 mr-1">  </span>
-                        <button class="cart_icon"> 
-                        <i class="fas fa-shopping-cart"></i> {{ object.get_items_total}} {{items}} </button> 
+                        <button class="cart_icon">     
+                        <i class="fas fa-shopping-cart"  aria-hidden="true" ></i> {{ object.get_items_total}} {{items}} </button> 
                         <span class="clearfix d-none d-sm-inline-block">  </span>
                         </a>
                     </li>
