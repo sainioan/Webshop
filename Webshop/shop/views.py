@@ -141,6 +141,45 @@ def get_items_in_cart(user):
     cart = Cart.objects.filter(user=user)
     return cart.objects.get_items_total()
 
+def update_quantity(request, pk):
+    
+    user = request.user
+
+    if request.method == "GET":
+        response_json = request.GET
+        response_json = json.dumps(response_json)
+        data = json.loads(response_json)
+        for key, val in data.items():
+            print(key)
+            data = key
+        print(type(data))
+        arr = data.split(',')
+        product_name = arr[0].split(":")
+        product_name = product_name[1]
+        product_name = product_name.strip('"')
+        print(product_name)
+        quantity = arr[1].split(":")
+        quantity = quantity[1]
+        quantity = quantity.strip('"')
+        quantity = quantity.strip('"}')
+        print(quantity)
+        product_qs = Product.objects.filter(product_name=product_name)
+        if product_qs.exists():
+           product = product_qs[0]
+        cart_qs = Cart.objects.filter(user = user)
+        if cart_qs.exists():
+            cart = cart_qs[0]
+            if cart.products.filter(product=product).exists() :
+                cart_item = CartItem.objects.filter(
+                product = product,
+                user = request.user)[0]
+            if cart_item:
+                if int(quantity) == 0:
+                    cart_item.delete()
+                cart_item.quantity = int(quantity)
+                cart_item.save()
+    return redirect("shop:shopping_cart")
+
 class ShoppingCartView(View):
     def get(self, *args, **kwargs):
 

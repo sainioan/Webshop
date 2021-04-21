@@ -24,26 +24,47 @@
 
     <thead class="thead-dark">
     <tr>
+
         <th scope="col"></th>
         <th scope="col">Product name</th>
         <th scope="col">Price</th>
         <th scope="col">Quantity</th>
+        <th scope="col" width="2px">Product Code</th>
     
     </tr>
     </thead>
     <tbody>
+      <script>
+        let pk
+      </script>
         {%  for item in object.products.all  %}
-
+          <script>
+            
+          </script>
            <tr>
-
             <td><img src="{{item.product.image.url}}" alt="product" width="50" height="70"  class="img-fluid" ></td>
-
                <td> {{item.product.product_name.title}}</td>
                <td> {{item.product.price}} €</td>
-               <td> {{item.quantity}}</td>
-              
+               <td> {{item.quantity}}
+                <td> {{item.product.code}}</td>
+    
+          
+
+              </script>
+   
+          
+               </td>
+               <script>
+                pk = `{{item.product.id}}`
+                console.log("pk", pk)
+            </script>
            </tr>
         {% endfor %}
+        <input type="text" placeholder="product name" id="product_name">
+        <input type="text" placeholder="qty" id="quantity">
+        <button type="button" onclick="postQuantity(pk);">Update Quantity</button>
+      
+
         <tr>
             <td colspan="5">
                 <a href="{% url 'shop:checkout' %}" class="btn btn-warning float-right ml-2">Checkout</a>
@@ -56,4 +77,27 @@
       <p font-size ="large"style="text-align:right" >Subtotal: <b> {{object.get_total_amount}} €<p> </b><tr>
     
 </div>
+<script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
+              <script>
+function postQuantity(pk) {
+  var quantity= document.getElementById("quantity").value
+   
+  var product_name = document.getElementById("product_name").value
+    var data = {product_name:product_name, quantity: quantity};
+  $.ajax({
+    type: "GET",
+    url: `update_quantity/`,
+    data: JSON.stringify(data),
+    success: function(data){
+        console.log("success");
+        console.log(JSON.stringify(data));
+    },
+    failure: function(data){
+        console.log("failure");
+        console.log(data);
+    },
+});
+}
+</script>
    {% endblock content %}
+   
