@@ -83,8 +83,12 @@
     background-color: aliceblue;
    
     }
-.searchBar input[type="text"]{
-   background-color: aliceblue;
+.searchbar input[type="text"]{
+   color: aliceblue;
+}
+.searchbar {
+  margin-left: 35px;
+  width: 500px;
 }
 .welcome{
     margin-left: 35px;
@@ -99,19 +103,16 @@
 .sr-only{
     margin-top: 18px;
 }
-/* .nav-link {
-    margin-top: 18px;
-} */
+
   </style>
 </head>  
 <body>  
     <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
-       <!-- " static_templates/webshop_logo.jpg" -->
         <img src="{% static 'webshop_logo.jpg' %}" height="120" alt="logo">
         <div class="welcome"></div>
         <a class="navbar-brand" href="{% url 'shop:index' %}">    @Welcome to Webshop!</a> 
         <div class="container">
-            <!-- <a class="navbar-brand" href="{% url 'shop:index' %}">Home</a>     -->
+
            
             <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
                 aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
@@ -123,7 +124,16 @@
                         <a class="nav-link" href="{% url 'shop:index' %}" >Home <span class="sr-only">(current)</span></a>
                     </li>
                 </ul>
-                
+                <div class="searchbar">
+                <form class="form-inline my-2 my-lg-0"  name="product_name"   method="GET" action="{% url 'shop:index' %}"  >
+                  <div class="md-form my-0"> 
+                  <input id='keyword'   action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2"  name="name" type="text" placeholder="Search by name/code" aria-label="Search"  onmousedown="postNameData();">
+                  <i class="material-icons mdc-button__icon">
+                  <input type="submit" value="search" onmousedown="postNameData();">
+              </i>
+              </div>
+              </form>
+            </div>
                 <ul class="navbar-nav nav-flex-icons">
                     <div class="link_to_shopping_cart">
                     <li class="nav-item active">
@@ -151,25 +161,7 @@
                     </li>
         
                 </ul>
-                <!-- <div class="searchBar">
-                <form class="form-inline my-2 my-lg-0"  method="GET"  name="product_name" action="{% url 'shop:index' %}" >
-                    <div class="md-form mt-0">
-                  <input  id="product_name"  placeholder="search by name or code"  type="text" name="name" >
-                  <i class="material-icons mdc-button__icon">
-                  <input type="submit" value="search" onmousedown="postNameData();">
-                </i>
-            </div>
-                </div> -->
-                   </form>
-                <form class="form-inline my-2 my-lg-0"  name="product_name"   method="GET" action="{% url 'shop:index' %}"  >
-                    <div class="md-form my-0"> 
-                    <input id='keyword'   action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2"  name="name" type="text" placeholder="Search by name or code" aria-label="Search"  onmousedown="postNameData();">
-                   <!-- <button id='keyword' class="btn btn-outline-success my-2 my-sm-0" type="submit" onclick ="postNameData()">Search</button>  -->
-                    <i class="material-icons mdc-button__icon">
-                    <input type="submit" value="search" onmousedown="postNameData();">
-                </i>
-                </div>
-                </form>
+           
             </div>
         </div>
     </nav>

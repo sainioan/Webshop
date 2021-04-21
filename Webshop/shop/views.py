@@ -20,11 +20,9 @@ def products(request):
     products = Product.objects.all().order_by("product_name").order_by("price")
 
     if request.method == "GET":
-        print("NAME")
         response_json = request.GET
         response_json = json.dumps(response_json)
         data = json.loads(response_json)
-        print("data: ", data)
         my_products_by_name = []
         for key, value in data.items():
             print("key: ", key)
