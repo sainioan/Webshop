@@ -36,9 +36,11 @@ A simple webshop by using Django framework
 1. `python manage.py createsuperuser`
 2. Log in to the admin panel 'http://127.0.0.1:8000/admin/' with the superuser username and password.
 
-<img src="https://github.com/sainioan/Webshop/blob/main/Webshop/static_templates/django_administarion.jpg"  width="300" height="150">
+<img src="https://github.com/sainioan/Webshop/blob/main/images/django_administration.jpg"  width="300" height="150">
 
 4. Select Products and choose 'add product'
 
 <img src="https://github.com/sainioan/Webshop/blob/main/Webshop/static_templates/admin_panel_2.jpg"  width="300" height="150">
 
+For more images, see: 
+<a href="https://github.com/sainioan/Webshop/blob/main/images/images.md">images</a>
