@@ -67,7 +67,19 @@
             </script>
            </tr>
         {% endfor %}
-
+        <form>
+          <div class="box">
+          <b>Product name or code: </b>
+          <br>
+          <input type="text" placeholder="product name or code" id="product_name">
+            <br>
+          <b>Quantity: </b> 
+          <br>
+          <input type="text" placeholder="qty" id="quantity">
+            <br>
+          <button type="button" onclick="postQuantity(pk);">Update Quantity</button>
+          </div>
+        </form>
 
         <tr>
             <td colspan="5">
@@ -80,19 +92,7 @@
    <div float="right"  padding= "30px" class="div_subtotal">
       <p font-size ="large"style="text-align:right" >Subtotal: <b> {{object.get_total_amount}} €<p> </b><tr>
 </div>
-<form>
-  <div class="box">
-  <b>Product name or code: </b>
-  <br>
-  <input type="text" placeholder="product name or code" id="product_name">
-    <br>
-  <b>Quantity: </b> 
-  <br>
-  <input type="text" placeholder="qty" id="quantity">
-    <br>
-  <button type="button" onclick="postQuantity(pk);">Update Quantity</button>
-  </div>
-</form>
+
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
               <script>
 function postQuantity(pk) {

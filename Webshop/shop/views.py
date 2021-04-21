@@ -134,6 +134,8 @@ def remove_from_cart(request, pk):
             return redirect("shop:product", pk=pk)
         ci.reduce_quantity(ci.quantity)
         ci.save()
+        if ci.quantity == 0:
+            ci.delete()
         return redirect("shop:shopping_cart")
 
 def get_items_in_cart(user):
