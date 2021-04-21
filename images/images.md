@@ -13,6 +13,9 @@
 
 <img src="https://github.com/sainioan/Webshop/blob/main/images/result_of_search.jpg"  width="300" height="200">
 
+### Add or Remove Items
+
+<img src="https://github.com/sainioan/Webshop/blob/main/images/product_details.jpg"  width="300" height="200">
 
 ### Shopping Cart
 
