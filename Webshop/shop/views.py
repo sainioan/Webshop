@@ -157,27 +157,31 @@ def update_quantity(request, pk):
         product_name = arr[0].split(":")
         product_name = product_name[1]
         product_name = product_name.strip('"')
+        product_name = product_name.strip("\t")
         print(product_name)
         quantity = arr[1].split(":")
         quantity = quantity[1]
         quantity = quantity.strip('"')
         quantity = quantity.strip('"}')
         print(quantity)
-        product_qs = Product.objects.filter(product_name=product_name)
+        # product_qs = Product.objects.filter(product_name=product_name)
+        product_qs = Product.objects.filter(
+                    Q(product_name__icontains=product_name) | Q(code__icontains=product_name)
+                )
         if product_qs.exists():
            product = product_qs[0]
-        cart_qs = Cart.objects.filter(user = user)
-        if cart_qs.exists():
-            cart = cart_qs[0]
-            if cart.products.filter(product=product).exists() :
-                cart_item = CartItem.objects.filter(
-                product = product,
-                user = request.user)[0]
-            if cart_item:
-                if int(quantity) == 0:
-                    cart_item.delete()
-                cart_item.quantity = int(quantity)
-                cart_item.save()
+           cart_qs = Cart.objects.filter(user = user)
+           if cart_qs.exists():
+                cart = cart_qs[0]
+                if cart.products.filter(product=product).exists() :
+                    cart_item = CartItem.objects.filter(
+                    product = product, user = request.user)[0]
+                    if cart_item:
+                       cart_item.quantity = int(quantity)     
+                       cart_item.save()
+                       cart_item.refresh_from_db()
+                    if int(quantity) == 0:
+                        cart_item.delete()
     return redirect("shop:shopping_cart")
 
 class ShoppingCartView(View):
