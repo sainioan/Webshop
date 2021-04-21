@@ -6,6 +6,15 @@
     p {
     font-size: large;
 }
+.box {
+  border : 1px solid black;
+  width: 300px;
+  padding-top: 5px;
+  padding-left: 5px;
+  padding-bottom: 5px;
+  padding-right: 5px;
+  float:right;
+}
 .div_subtotal {
   padding: 30px;
   border: 1px solid #4CAF50;
@@ -58,15 +67,7 @@
             </script>
            </tr>
         {% endfor %}
-        <b>Product name or code: </b>
-        <input type="text" placeholder="product name or code" id="product_name">
-        <br>
-        <div class="box">
-        <b>Quantity: </b> 
-        <input type="text" placeholder="qty" id="quantity">
-        <br>
-        <button type="button" onclick="postQuantity(pk);">Update Quantity</button>
-        </div>
+
 
         <tr>
             <td colspan="5">
@@ -78,8 +79,20 @@
    </table> 
    <div float="right"  padding= "30px" class="div_subtotal">
       <p font-size ="large"style="text-align:right" >Subtotal: <b> {{object.get_total_amount}} €<p> </b><tr>
-    
 </div>
+<form>
+  <div class="box">
+  <b>Product name or code: </b>
+  <br>
+  <input type="text" placeholder="product name or code" id="product_name">
+    <br>
+  <b>Quantity: </b> 
+  <br>
+  <input type="text" placeholder="qty" id="quantity">
+    <br>
+  <button type="button" onclick="postQuantity(pk);">Update Quantity</button>
+  </div>
+</form>
 <script src="http://code.jquery.com/jquery-1.11.0.min.js"></script>
               <script>
 function postQuantity(pk) {
@@ -93,6 +106,7 @@ function postQuantity(pk) {
     data: JSON.stringify(data),
     success: function(data){
         console.log("success");
+        location.reload();
         console.log(JSON.stringify(data));
     },
     failure: function(data){
