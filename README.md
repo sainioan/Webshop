@@ -42,5 +42,9 @@ A simple webshop by using Django framework
 
 <img src="https://github.com/sainioan/Webshop/blob/main/Webshop/static_templates/admin_panel_2.jpg"  width="300" height="150">
 
-For more images, see: 
+### Sample images 
+
+<a href="https://github.com/sainioan/Webshop/tree/main/images/sample%20product%20images">sample images</a>
+
+### For more images, see: 
 <a href="https://github.com/sainioan/Webshop/blob/main/images/images.md">images</a>
