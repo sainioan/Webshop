@@ -31,3 +31,9 @@ A simple webshop by using Django framework
 8. `python manage.py makemigrations`
 9. `python manage.py migrate`
 10. `python manage.py runserver`
+
+## Feature to Add Products:
+1. `python manage.py createsuperuser`
+2. Log in to the admin panel 'http://127.0.0.1:8000/admin/' with your superuser username and password.
+3. Select Products and choose 'add product'
+
