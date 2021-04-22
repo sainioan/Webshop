@@ -38,7 +38,7 @@ class Product(models.Model):
         })
     
     def delete(self, *args, **kwargs):
-        super(Products, self).delete(*args, **kwargs)
+        super(Product, self).delete(*args, **kwargs)
 
 class CartItem(models.Model):
     user = models.ForeignKey(settings.AUTH_USER_MODEL,
