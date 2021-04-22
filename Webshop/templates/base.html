@@ -125,9 +125,9 @@
                     </li>
                 </ul>
                 <div class="searchbar">
-                <form class="form-inline my-2 my-lg-0"  name="product_name"   method="GET" action="{% url 'shop:index' %}"  >
+                <form class="form-inline my-2 my-lg-0" action="{% url 'shop:index' %}"  ame="product_name"   method="GET" action="{% url 'shop:index' %}"  >
                   <div class="md-form my-0"> 
-                  <input id='keyword'   action="{% url 'shop:index' %}"  width="20px "class="form-control mr-sm-2"  name="name" type="text" placeholder="Search by name/code" aria-label="Search"  onmousedown="postNameData();">
+                  <input id='keyword'  width="20px "class="form-control mr-sm-2"  name="name" type="text" placeholder="Search by name/code" aria-label="Search"  onmousedown="postNameData();">
                   <i class="material-icons mdc-button__icon">
                   <input type="submit" value="search" onmousedown="postNameData();">
               </i>
@@ -173,10 +173,29 @@
 </ul>
 {% endif %}
     {% block content %}
-    <script>
-        
-    </script>
+    <script type="text/javascript">
+
+      function postNameData() {
+        var product_name = document.getElementById("keyword").value
+          var data = {product_name: product_name};
+        $.ajax({
+          type: "GET",
+          url: "{% url 'shop:index' %}",
+          data: JSON.stringify(data),
+          success: function(data){
+              console.log("success");
+              location.reload();
+              console.log(data);
+          },
+          failure: function(data){
+              console.log("failure");
+              console.log(data);
+          },
+      });
+      }
+      
+        </script>
     {% endblock %}
 
 </body>  
-</html>   
+</html>

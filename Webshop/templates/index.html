@@ -62,7 +62,7 @@
 
   </div>
     <script src="//code.jquery.com/jquery-1.9.1.min.js"></script>
-    <script>
+    <script type="text/javascript">
 
 function postNameData() {
   var product_name = document.getElementById("keyword").value
@@ -73,7 +73,7 @@ function postNameData() {
     data: JSON.stringify(data),
     success: function(data){
         console.log("success");
-        location.reload();
+        // location.reload();
         console.log(data);
     },
     failure: function(data){
