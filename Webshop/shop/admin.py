@@ -22,7 +22,7 @@ class ProductAdmin(admin.ModelAdmin):
         )
 
     name_admin.short_description = "Product Name"
-    list_display = ("image_admin", "product_name", "price", "description")
+    list_display = ("image", "product_name", "price", "description")
     list_filter = ("price",)
     search_fields = ("product_name",)
 
